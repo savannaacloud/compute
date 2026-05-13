@@ -52,6 +52,12 @@ variable "enable_kafka" {
   default     = true
 }
 
+variable "k8s_image_name" {
+  description = "OS image for Kubernetes nodes (only used when enable_kubernetes=true). Magnum needs Fedora CoreOS — pick one tagged 'k8s'."
+  type        = string
+  default     = "Fedora CoreOS 43"
+}
+
 variable "kubernetes_node_count" {
   description = "Worker count when enable_kubernetes=true."
   type        = number

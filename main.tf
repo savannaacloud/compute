@@ -20,6 +20,11 @@ data "sws_image" "os" {
   name = var.image_name
 }
 
+data "sws_image" "k8s" {
+  count = var.enable_kubernetes ? 1 : 0
+  name  = var.k8s_image_name
+}
+
 # ── Plans (data source) ─────────────────────────────────────────────────────
 # Plans are the Savannaa-branded compute sizes (m1.small etc). They aren't
 # created by you — you read them. Use them to size other resources.
@@ -62,7 +67,7 @@ resource "sws_kubernetes_template" "k8s" {
   count = var.enable_kubernetes ? 1 : 0
 
   name                = "${local.prefix}-k8s-tpl"
-  image               = "Fedora CoreOS 43"
+  image               = data.sws_image.k8s[0].id
   flavor_id           = "m1.medium"
   master_flavor_id    = "m1.medium"
   external_network_id = data.sws_network.public[0].id
