@@ -7,7 +7,7 @@ End-to-end terraform that deploys every **Compute** product on Savannaa from one
 | **Instances** | `sws_instance` | Standard VM. Sized via `flavor_name`, attached to your network. |
 | **Plans** | `data.sws_plan` | Read-only lookup so you can reference plan sizes by name. |
 | **Key Pairs** | `sws_keypair` | SSH keypair; private key returned **once** on create. |
-| **Availability Zones** | attribute on `sws_instance` | Pick an AZ inside the region (currently `nova` on both regions). |
+| **Availability Zones** | attribute on `sws_instance` | Pick an AZ inside the region. AWS-style: `ng-abuja-1a` / `ng-lagos-1a`. |
 | **Kubernetes** | `sws_kubernetes_template` + `sws_kubernetes_cluster` | Cluster template defines the spec; cluster is the live fleet. Off by default. |
 | **Serverless** | `sws_serverless_container` | Single-tenant container — like AWS Fargate. |
 | **Big Data** | `sws_kafka` | Managed Kafka brokers. The Savannaa Big Data offering also includes Spark/Flink/Hadoop — those still order via the console wizard. |
