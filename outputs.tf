@@ -11,19 +11,13 @@ output "keypair_name" {
   value       = sws_keypair.admin.name
 }
 
-output "keypair_private_key" {
-  description = "PEM-formatted private key. Returned ONLY on create — store securely. Use `terraform output -raw keypair_private_key > ~/.ssh/<prefix>.pem && chmod 600` after apply."
-  value       = sws_keypair.admin.private_key
-  sensitive   = true
-}
-
 output "web_instance_id" {
   value = sws_instance.web.id
 }
 
 output "web_public_ip" {
   description = "Public IP of the standalone web instance. May be null until the public-IP attach finishes."
-  value       = try(sws_instance.web.public_ip, null)
+  value       = try(sws_instance.web.ip_address, null)
 }
 
 output "kubernetes_cluster_id" {

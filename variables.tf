@@ -10,10 +10,10 @@ variable "region" {
   default     = "ng-abuja-1"
 }
 
-variable "availability_zone" {
-  description = "Availability zone within the region (AWS-style: <region>a (e.g. ng-abuja-1a, ng-lagos-1a))."
+variable "ssh_public_key_file" {
+  description = "Path to an existing SSH public key file. The provider's sws_keypair takes a public_key string (BYO key, like AWS); you keep the matching private key on your laptop."
   type        = string
-  default     = "ng-abuja-1a"
+  default     = "~/.ssh/id_rsa.pub"
 }
 
 variable "instance_plan" {

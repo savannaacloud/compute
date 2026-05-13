@@ -19,7 +19,8 @@ data "sws_plan" "medium" {
 # private_key is returned ONLY on create — store it from outputs.tf or it's lost.
 
 resource "sws_keypair" "admin" {
-  name = "${local.prefix}-admin"
+  name       = "${local.prefix}-admin"
+  public_key = file(pathexpand(var.ssh_public_key_file))
 }
 
 # ── Instances ──────────────────────────────────────────────────────────────
@@ -27,12 +28,12 @@ resource "sws_keypair" "admin" {
 # region is set at the provider level (or per-resource on some).
 
 resource "sws_instance" "web" {
-  name              = "${local.prefix}-web"
-  flavor_name       = var.instance_plan
-  image_name        = var.image_name
-  network_id        = var.network_id
-  key_name          = sws_keypair.admin.name
-  availability_zone = var.availability_zone
+  name       = "${local.prefix}-web"
+  plan       = var.instance_plan
+  image      = var.image_name
+  network_id = var.network_id
+  keypair    = sws_keypair.admin.name
+  public_ip  = true
 }
 
 # ── Kubernetes (template + cluster) ─────────────────────────────────────────
