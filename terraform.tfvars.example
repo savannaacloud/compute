@@ -1,6 +1,6 @@
 prefix              = "compute-demo"
 region              = "ng-abuja-1"
-availability_zone   = "nova"
+availability_zone   = "ng-abuja-1a"
 instance_plan       = "m1.small"
 image_name          = "Ubuntu 22.04 LTS"
 
