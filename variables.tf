@@ -11,9 +11,9 @@ variable "region" {
 }
 
 variable "availability_zone" {
-  description = "Availability zone within the region (currently \"nova\" on both regions)."
+  description = "Availability zone within the region (AWS-style: <region>a (e.g. ng-abuja-1a, ng-lagos-1a))."
   type        = string
-  default     = "nova"
+  default     = "ng-abuja-1a"
 }
 
 variable "instance_plan" {
