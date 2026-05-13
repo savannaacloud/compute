@@ -12,7 +12,7 @@ output "keypair_name" {
 }
 
 output "keypair_private_key" {
-  description = "PEM-formatted private key. Returned ONLY on create — store securely. Use `terraform output -raw keypair_private_key > ~/.ssh/${var.prefix}.pem && chmod 600` after apply."
+  description = "PEM-formatted private key. Returned ONLY on create — store securely. Use `terraform output -raw keypair_private_key > ~/.ssh/<prefix>.pem && chmod 600` after apply."
   value       = sws_keypair.admin.private_key
   sensitive   = true
 }
