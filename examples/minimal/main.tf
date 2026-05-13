@@ -13,18 +13,25 @@ variable "network_id" {
   description = "Existing network ID."
 }
 
+variable "ssh_public_key_file" {
+  type    = string
+  default = "~/.ssh/id_rsa.pub"
+}
+
 resource "sws_keypair" "demo" {
-  name = "compute-minimal"
+  name       = "compute-minimal"
+  public_key = file(pathexpand(var.ssh_public_key_file))
 }
 
 resource "sws_instance" "vm" {
-  name        = "compute-minimal-vm"
-  flavor_name = "m1.small"
-  image_name  = "Ubuntu 22.04 LTS"
-  network_id  = var.network_id
-  key_name    = sws_keypair.demo.name
+  name       = "compute-minimal-vm"
+  plan       = "m1.small"
+  image      = "Ubuntu 22.04 LTS"
+  network_id = var.network_id
+  keypair    = sws_keypair.demo.name
+  public_ip  = true
 }
 
 output "ssh" {
-  value = "ssh -i compute-minimal.pem ubuntu@${try(sws_instance.vm.public_ip, sws_instance.vm.ip[0])}"
+  value = "ssh -i compute-minimal.pem ubuntu@${sws_instance.vm.ip_address}"
 }
