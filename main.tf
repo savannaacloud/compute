@@ -7,7 +7,10 @@ locals {
 # override by setting network_name in tfvars.
 
 data "sws_network" "default" { name = var.network_name }
-data "sws_network" "public"  { name = var.external_network_name }
+data "sws_network" "public" {
+  count = var.enable_kubernetes ? 1 : 0
+  name  = var.external_network_name
+}
 
 # ── Image (data source) ────────────────────────────────────────────────────
 # Look up the image by name → returns its UUID. sws_instance.image needs
@@ -62,7 +65,7 @@ resource "sws_kubernetes_template" "k8s" {
   image               = "Fedora CoreOS 43"
   flavor_id           = "m1.medium"
   master_flavor_id    = "m1.medium"
-  external_network_id = data.sws_network.public.id
+  external_network_id = data.sws_network.public[0].id
   keypair_id          = sws_keypair.admin.name
   coe_name            = "kubernetes"
 }
