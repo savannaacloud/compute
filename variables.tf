@@ -28,14 +28,16 @@ variable "image_name" {
   default     = "Ubuntu 22.04 LTS"
 }
 
-variable "network_id" {
-  description = "Existing network ID to attach all workloads to."
+variable "network_name" {
+  description = "Name of an existing network (looked up via data.sws_network). Every signup gets a 'default' network automatically — use that unless you've created your own."
   type        = string
+  default     = "default"
 }
 
-variable "external_network_id" {
-  description = "Public/external network ID for Kubernetes cluster egress."
+variable "external_network_name" {
+  description = "Public/external network name for Kubernetes egress. The platform's external network is named 'public' in both regions."
   type        = string
+  default     = "public"
 }
 
 variable "enable_kubernetes" {

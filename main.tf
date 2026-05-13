@@ -2,6 +2,13 @@ locals {
   prefix = var.prefix
 }
 
+# ── Network (data source) ──────────────────────────────────────────────────
+# Lookup the user's network by name. Every signup gets a "default" network;
+# override by setting network_name in tfvars.
+
+data "sws_network" "default" { name = var.network_name }
+data "sws_network" "public"  { name = var.external_network_name }
+
 # ── Image (data source) ────────────────────────────────────────────────────
 # Look up the image by name → returns its UUID. sws_instance.image needs
 # a UUID (it's passed straight to Nova as imageRef).
@@ -39,7 +46,7 @@ resource "sws_instance" "web" {
   name       = "${local.prefix}-web"
   plan       = var.instance_plan
   image      = data.sws_image.os.id
-  network_id = var.network_id
+  network_id = data.sws_network.default.id
   keypair    = sws_keypair.admin.name
   public_ip  = true
 }
@@ -55,7 +62,7 @@ resource "sws_kubernetes_template" "k8s" {
   image               = "Fedora CoreOS 43"
   flavor_id           = "m1.medium"
   master_flavor_id    = "m1.medium"
-  external_network_id = var.external_network_id
+  external_network_id = data.sws_network.public.id
   keypair_id          = sws_keypair.admin.name
   coe_name            = "kubernetes"
 }
@@ -77,7 +84,7 @@ resource "sws_kubernetes_cluster" "k8s" {
 resource "sws_serverless_container" "fn" {
   name       = "${local.prefix}-fn"
   image      = "registry.savannaa.com/library/echo:latest"
-  network_id = var.network_id
+  network_id = data.sws_network.default.id
 }
 
 # ── Big Data (Kafka) ───────────────────────────────────────────────────────
@@ -94,7 +101,7 @@ resource "sws_kafka" "events" {
     flavor_id       = "m1.medium"
     broker_count    = 3
     storage_gb      = 50
-    network_id      = var.network_id
+    network_id      = data.sws_network.default.id
     kafka_version   = "3.7"
   })
 }
@@ -110,7 +117,7 @@ resource "sws_kafka" "events" {
 #     desired_size   = 2
 #     flavor_name    = var.instance_plan
 #     image_name     = var.image_name
-#     network_id     = var.network_id
+#     network_id     = data.sws_network.default.id
 #     key_name       = sws_keypair.admin.name
 #   }
 #

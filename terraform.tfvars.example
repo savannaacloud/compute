@@ -3,11 +3,10 @@ region              = "ng-abuja-1"
 instance_plan       = "m1.small"
 image_name          = "Ubuntu 22.04 LTS"
 
-# Required: look these up in the console first or via `terraform console`:
-#   data.sws_network.default.id      → use as network_id
-#   data.sws_network.public.id       → use as external_network_id
-network_id          = "REPLACE_WITH_YOUR_NETWORK_ID"
-external_network_id = "REPLACE_WITH_YOUR_PUBLIC_NETWORK_ID"
+# Network is looked up by name (defaults to "default" / "public"; uncomment to override):
+# network_name          = "default"
+# external_network_name = "public"
+
 
 # Optional toggles (k8s adds ~10 min to apply time)
 enable_kubernetes      = false
