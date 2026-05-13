@@ -18,6 +18,8 @@ variable "ssh_public_key_file" {
   default = "~/.ssh/id_rsa.pub"
 }
 
+data "sws_image" "os" { name = "Ubuntu 22.04 LTS" }
+
 resource "sws_keypair" "demo" {
   name       = "compute-minimal"
   public_key = file(pathexpand(var.ssh_public_key_file))
@@ -26,7 +28,7 @@ resource "sws_keypair" "demo" {
 resource "sws_instance" "vm" {
   name       = "compute-minimal-vm"
   plan       = "m1.small"
-  image      = "Ubuntu 22.04 LTS"
+  image      = data.sws_image.os.id
   network_id = var.network_id
   keypair    = sws_keypair.demo.name
   public_ip  = true

@@ -2,6 +2,14 @@ locals {
   prefix = var.prefix
 }
 
+# ── Image (data source) ────────────────────────────────────────────────────
+# Look up the image by name → returns its UUID. sws_instance.image needs
+# a UUID (it's passed straight to Nova as imageRef).
+
+data "sws_image" "os" {
+  name = var.image_name
+}
+
 # ── Plans (data source) ─────────────────────────────────────────────────────
 # Plans are the Savannaa-branded compute sizes (m1.small etc). They aren't
 # created by you — you read them. Use them to size other resources.
@@ -30,7 +38,7 @@ resource "sws_keypair" "admin" {
 resource "sws_instance" "web" {
   name       = "${local.prefix}-web"
   plan       = var.instance_plan
-  image      = var.image_name
+  image      = data.sws_image.os.id
   network_id = var.network_id
   keypair    = sws_keypair.admin.name
   public_ip  = true
