@@ -1,0 +1,19 @@
+# Terraform local state + caches
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Variable files containing real secrets / network IDs
+terraform.tfvars
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Generated artefacts
+*.pem

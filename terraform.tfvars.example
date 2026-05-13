@@ -1,0 +1,16 @@
+prefix              = "compute-demo"
+region              = "ng-abuja-1"
+availability_zone   = "nova"
+instance_plan       = "m1.small"
+image_name          = "Ubuntu 22.04 LTS"
+
+# Required: look these up in the console first or via `terraform console`:
+#   data.sws_network.default.id      → use as network_id
+#   data.sws_network.public.id       → use as external_network_id
+network_id          = "REPLACE_WITH_YOUR_NETWORK_ID"
+external_network_id = "REPLACE_WITH_YOUR_PUBLIC_NETWORK_ID"
+
+# Optional toggles (k8s adds ~10 min to apply time)
+enable_kubernetes      = false
+enable_kafka           = true
+kubernetes_node_count  = 2
