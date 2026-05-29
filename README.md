@@ -18,7 +18,7 @@ End-to-end terraform that deploys every **Compute** product on Savannaa from one
 
 ## Prerequisites
 
-1. A Savannaa account → grab your **API key** from https://savannaa.com/account/api-keys.
+1. A Savannaa account → grab your **API key** from https://savannaa.com/api.
 2. The **terraform CLI** ≥ 1.5 ([install](https://developer.hashicorp.com/terraform/install)).
 3. Your **network ID** and **public-network ID** from the Savannaa console → Networks page.
 
@@ -39,7 +39,7 @@ cd compute
 
 ```bash
 export SWS_API_URL="https://savannaa.com"
-export SWS_API_KEY="sws_..."           # from https://savannaa.com/account/api-keys
+export SWS_API_KEY="sws_..."           # from https://savannaa.com/api
 ```
 
 > Tip: drop these into `~/.bashrc` / `~/.zshrc` so future runs pick them up.
