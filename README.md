@@ -40,9 +40,20 @@ cd compute
 ```bash
 export SWS_API_URL="https://savannaa.com"
 export SWS_API_KEY="sws_..."           # from https://savannaa.com/api
+export SWS_REGION="ng-abuja-1"          # ng-abuja-1 (default) or ng-lagos-1
 ```
 
 > Tip: drop these into `~/.bashrc` / `~/.zshrc` so future runs pick them up.
+
+**Region precedence (highest wins):**
+
+1. `region` on the `sws_instance` resource (explicit per-instance, surfaces in plan)
+2. `region` on the chosen `sws_network` data source
+3. `SWS_REGION` env var (above)
+4. `region` on the `provider "sws"` block
+5. default: `ng-abuja-1`
+
+So `SWS_REGION=ng-abuja-1` **does not** override a Lagos network ID — the network's region wins. Set `region` on the instance itself if you want unambiguous placement in plan output.
 
 ### 3. Configure variables
 
